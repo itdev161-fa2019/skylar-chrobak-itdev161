@@ -1,35 +1,32 @@
 import React from 'react';
 import './App.css';
-class App extends React.Component{
-  render() {
-    return(
-      <div className="App">
-        <header className="App-Header">
-          GoodThings</header>
-      </div>
-    );
-  }
-}
+import axios from 'axios';
 
-/* const App: React.FC = () => {
+class App extends React.Component {
+  state ={
+    data: null
+  }
+
+  componentDidMount(){
+    axios.get('http://localhost:5000')
+    .then((response)=> {
+      this.setState({
+        data:response.data
+      })
+    })
+    .catch((error)=> {
+      console.error(`Error fetching data: ${error}`);
+    }
+  )
+}
+render() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        GoodThings
       </header>
     </div>
   );
-} */
-
+}
+}
 export default App;
