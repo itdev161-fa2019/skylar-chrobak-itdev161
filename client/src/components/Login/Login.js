@@ -65,8 +65,7 @@ return (
         <button onClick={() => loginUser()}>Log In</button>
         </div>
         <div>
-        {errors &&
-            errors.map(error => <div key={error.msg}>{error.msg}</div>)}
+        {errors && errors.map(error => <div key={error.msg}>{error.msg}</div>)}
         </div>
     </div>
     )
