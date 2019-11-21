@@ -128,8 +128,8 @@ app.post(
     [
         auth,
         [
-            check('title', 'Title text is required').not().isEmpty(),
-            check('body', 'Body text is required').not().isEmpty()
+            check('title', 'The Title text is required').not().isEmpty(),
+            check('body', 'The Body text is required').not().isEmpty()
         ]
     ],
     async(req, res) =>{
@@ -155,11 +155,10 @@ app.post(
     }
 );
 /**
- * 
  * @route GET api/posts 
  * @desc Get posts
  */
-app.get('/api/posts', auth, async(req,res)=>{
+app.get('/api/posts', auth, async(req, res)=>{
     try{
         const posts = await Post.find().sort({date:-1});
         res.json(posts);
@@ -195,11 +194,31 @@ app.delete('/api/posts/:id', auth, async(req,res)=>{
             return res.status(404).json({msg: 'Post not found'});
         }
         if (post.user.toString() !== req.user.id){
-            return res.status(401).json({msg: 'User not authorized'});
+            return res.status(401).json({msg: ' User not authorized'});
         }
         await post.remove();
         res.json({msg: 'Post removed'});
     } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+/** 
+ * @route PUT api/posts/id
+ * @desc Update a post
+*/
+app.put('/api/posts/:id', auth, async(req,res)=>{
+    try{
+        const {title,  body} = req.body;
+        const post = await Post.findById(req.params.id);
+        if (!post){
+            return res.status(404).json({msg: 'Post not found'});
+        }
+        post.title = title || post.title;
+        post.body = body || post.body;
+        await post.save();
+        res.json(post);
+    } catch (error){
         console.error(error);
         res.status(500).send('Server error');
     }
