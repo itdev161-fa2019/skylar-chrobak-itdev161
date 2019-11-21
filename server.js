@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 import User from './models/User';
+import Post from './models/Post';
 import auth from './middleware/auth';
 
 const app = express();
